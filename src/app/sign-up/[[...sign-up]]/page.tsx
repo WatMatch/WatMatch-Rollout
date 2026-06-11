@@ -1,9 +1,15 @@
 import { SignUp } from "@clerk/nextjs";
+import { AuthShell, watmatchAuthAppearance } from "@/components/auth-shell";
 
 export default function SignUpPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-10">
-      <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
-    </main>
+    <AuthShell>
+      <SignUp
+        routing="path"
+        path="/sign-up"
+        signInUrl="/sign-in"
+        appearance={watmatchAuthAppearance}
+      />
+    </AuthShell>
   );
 }
