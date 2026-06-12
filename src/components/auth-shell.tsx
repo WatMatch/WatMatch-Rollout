@@ -12,6 +12,7 @@ export const watmatchAuthAppearance = {
     colorTextSecondary: "#475569",
     colorInputBackground: "#ffffff",
     colorInputText: "#0f172a",
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif",
     borderRadius: "0.75rem",
   },
   elements: {
@@ -26,6 +27,23 @@ export const watmatchAuthAppearance = {
       "rounded-md bg-slate-900 text-white shadow-sm hover:bg-slate-700",
     footerActionLink: "text-slate-900 hover:text-slate-700",
     identityPreviewEditButton: "text-slate-700",
+  },
+} as const;
+
+export const watmatchAuthLocalization = {
+  formFieldLabel__emailAddress: "UWaterloo Email Address",
+  formFieldInputPlaceholder__emailAddress: "student@uwaterloo.ca",
+  signIn: {
+    start: {
+      title: "Sign in to WatMatch",
+      subtitle: "Welcome back! Please sign in to continue.",
+    },
+  },
+  signUp: {
+    start: {
+      title: "Create your WatMatch account",
+      subtitle: "Welcome! Please sign up to continue.",
+    },
   },
 } as const;
 

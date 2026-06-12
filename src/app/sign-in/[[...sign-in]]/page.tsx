@@ -1,5 +1,8 @@
 import { SignIn } from "@clerk/nextjs";
-import { AuthShell, watmatchAuthAppearance } from "@/components/auth-shell";
+import {
+  AuthShell,
+  watmatchAuthAppearance,
+} from "@/components/auth-shell";
 
 export default function SignInPage() {
   return (
