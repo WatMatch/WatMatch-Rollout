@@ -1,13 +1,14 @@
 # WatMatch Past Capstones
 
-Standalone read-only browser for WatMatch past capstones.
+Standalone browser for WatMatch past capstones.
 
 ## Scope
 
-- Authenticated browsing only.
+- Authenticated past-capstone browsing only.
 - No posting, importing, editing, team formation, matching, admin, or RBAC.
 - Any verified `@uwaterloo.ca` Clerk user can browse.
 - Data comes from the existing Supabase RPCs for historical past capstones.
+- The app stores only private product feedback and private capstone shortlists.
 
 ## Local Setup
 
@@ -28,7 +29,12 @@ Required environment variables:
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 
-The Supabase service key is server-only. It is used only by protected Next route handlers that call read-only RPCs.
+The Supabase service key is server-only. It is used only by protected Next route handlers.
+
+Run these one-time setup files in the Supabase SQL editor for private app metadata:
+
+- `db/feedback.sql`
+- `db/bookmarks.sql`
 
 ## Deploy
 

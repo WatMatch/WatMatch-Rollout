@@ -1,6 +1,6 @@
 import "server-only";
 
-type RpcParams = Record<string, number | string | null>;
+type RpcParams = Record<string, boolean | number | string | null>;
 
 export async function callSupabaseRpc<T>(
   functionName: string,

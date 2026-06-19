@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jsonError } from "@/lib/api-errors";
-import { requireWaterlooUser } from "@/lib/auth";
+import { requireWaterlooIdentity } from "@/lib/auth";
 import {
   MAX_PAGE_SIZE,
   normalizePastCapstone,
@@ -41,9 +41,13 @@ function filterValue(value: string | null): string | null {
   return trimmed;
 }
 
+function parseBoolean(value: string | null): boolean {
+  return value?.trim().toLowerCase() === "true";
+}
+
 export async function GET(request: NextRequest) {
   try {
-    await requireWaterlooUser();
+    const { clerkUserId } = await requireWaterlooIdentity();
 
     const searchParams = request.nextUrl.searchParams;
     const source = "historical";
@@ -53,16 +57,28 @@ export async function GET(request: NextRequest) {
       PAGE_SIZE,
       MAX_PAGE_SIZE
     );
+    const bookmarkedOnly = parseBoolean(searchParams.get("bookmarked"));
 
     const rpcPayload = await callSupabaseRpc<RpcPastCapstoneResponse>(
-      "watmatch_get_past_capstones",
-      {
-        p_page: page,
-        p_page_size: pageSize,
-        p_search: filterValue(searchParams.get("search")),
-        p_department: filterValue(searchParams.get("department")),
-        p_year: filterValue(searchParams.get("year")),
-      }
+      bookmarkedOnly
+        ? "watmatch_get_bookmarked_past_capstones"
+        : "watmatch_get_past_capstones",
+      bookmarkedOnly
+        ? {
+            p_clerk_user_id: clerkUserId,
+            p_page: page,
+            p_page_size: pageSize,
+            p_search: filterValue(searchParams.get("search")),
+            p_department: filterValue(searchParams.get("department")),
+            p_year: filterValue(searchParams.get("year")),
+          }
+        : {
+            p_page: page,
+            p_page_size: pageSize,
+            p_search: filterValue(searchParams.get("search")),
+            p_department: filterValue(searchParams.get("department")),
+            p_year: filterValue(searchParams.get("year")),
+          }
     );
 
     const records = Array.isArray(rpcPayload.data)
